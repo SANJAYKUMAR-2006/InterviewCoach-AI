@@ -66,3 +66,21 @@ export async function getHistory() {
   }
   return response.json();
 }
+
+/**
+ * Uploads a PDF/TXT resume and returns generated customized mock interview questions.
+ */
+export async function uploadResume(resumeFile) {
+  const formData = new FormData();
+  formData.append('file', resumeFile);
+
+  const response = await fetch(`${BASE_URL}/interview/upload-resume`, {
+    method: 'POST',
+    body: formData,
+  });
+  if (!response.ok) {
+    const err = await response.json();
+    throw new Error(err.detail || 'Failed to parse resume.');
+  }
+  return response.json();
+}

@@ -19,6 +19,7 @@ from services.grammar_analysis import analyze_grammar
 from services.relevance_analysis import analyze_relevance
 from services.scoring import calculate_final_score
 from services.report_generator import generate_suggestions
+from services.resume_parser import parse_resume_and_generate_questions
 
 router = APIRouter()
 
@@ -36,6 +37,9 @@ def load_questions():
     except Exception as e:
         print(f"Error loading questions: {e}")
         return []
+
+# In-memory storage mapping temporary question IDs to generated resume questions
+RESUME_QUESTIONS_CACHE = {}
 
 # Pydantic schemas for request validation
 class StartRequest(BaseModel):
@@ -112,14 +116,52 @@ async def submit_audio(file: UploadFile = File(...)):
         if os.path.exists(temp_file_path):
             os.remove(temp_file_path)
 
+@router.post("/interview/upload-resume")
+async def upload_resume(file: UploadFile = File(...)):
+    if not file:
+        raise HTTPException(status_code=400, detail="No resume file uploaded.")
+
+    # Create temporary directory inside workspace for resume files
+    temp_dir = os.path.join(
+        os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 
+        "temp"
+    )
+    os.makedirs(temp_dir, exist_ok=True)
+    
+    file_ext = os.path.splitext(file.filename)[1] or ".txt"
+    temp_file_path = os.path.join(temp_dir, f"resume_upload{file_ext}")
+    
+    try:
+        with open(temp_file_path, "wb") as buffer:
+            shutil.copyfileobj(file.file, buffer)
+            
+        # Parse resume and generate customized questions
+        generated_questions = parse_resume_and_generate_questions(temp_file_path)
+        
+        # Cache generated questions in memory for grading session lookup
+        for q in generated_questions:
+            RESUME_QUESTIONS_CACHE[q["id"]] = q
+            
+        return generated_questions
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Resume processing failed: {str(e)}")
+    finally:
+        # Clean up temporary file
+        if os.path.exists(temp_file_path):
+            os.remove(temp_file_path)
+
 @router.post("/interview/analyze")
 def analyze_interview(payload: AnalyzeRequest, db: Session = Depends(get_db)):
-    questions = load_questions()
-    
-    # Find matching question
-    target_q = next((q for q in questions if q["id"] == payload.question_id), None)
+    # Check if question is a dynamically generated resume question
+    if payload.question_id in RESUME_QUESTIONS_CACHE:
+        target_q = RESUME_QUESTIONS_CACHE[payload.question_id]
+    else:
+        # Fall back to standard question bank lookup
+        questions = load_questions()
+        target_q = next((q for q in questions if q["id"] == payload.question_id), None)
+        
     if not target_q:
-        raise HTTPException(status_code=404, detail="Question ID not found in question bank.")
+        raise HTTPException(status_code=404, detail="Question ID not found in bank or cache.")
 
     expected_keywords = target_q.get("expected_keywords", [])
     

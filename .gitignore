@@ -1,0 +1,31 @@
+# Environments
+venv/
+.env
+env/
+
+# Python Cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Node/Vite Dependencies & Builds
+node_modules/
+dist/
+dist-ssr/
+*.local
+
+# Database
+backend/interviewcoach.db
+
+# Audio and Resume uploads temp directories
+backend/temp/
+
+# Editors
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.swp
