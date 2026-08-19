@@ -1,0 +1,86 @@
+[
+  {
+    "id": 1,
+    "mode": "HR",
+    "difficulty": "Easy",
+    "question": "Tell me about yourself.",
+    "expected_keywords": ["education", "skills", "experience", "projects", "goals"]
+  },
+  {
+    "id": 2,
+    "mode": "HR",
+    "difficulty": "Easy",
+    "question": "What are your strengths?",
+    "expected_keywords": ["strength", "skill", "example", "team", "communication"]
+  },
+  {
+    "id": 3,
+    "mode": "HR",
+    "difficulty": "Medium",
+    "question": "Why should we hire you?",
+    "expected_keywords": ["skills", "value", "company", "experience", "contribute"]
+  },
+  {
+    "id": 4,
+    "mode": "Behavioral",
+    "difficulty": "Medium",
+    "question": "Tell me about a challenge you faced.",
+    "expected_keywords": ["challenge", "problem", "solution", "learned", "result"]
+  },
+  {
+    "id": 5,
+    "mode": "HR",
+    "difficulty": "Hard",
+    "question": "Where do you see yourself in 5 years?",
+    "expected_keywords": ["goal", "growth", "career", "company", "learning"]
+  },
+  {
+    "id": 6,
+    "mode": "Technical",
+    "difficulty": "Easy",
+    "question": "What is the difference between a process and a thread?",
+    "expected_keywords": ["process", "thread", "memory", "resource", "execution"]
+  },
+  {
+    "id": 7,
+    "mode": "Technical",
+    "difficulty": "Medium",
+    "question": "Explain Object-Oriented Programming (OOP) principles.",
+    "expected_keywords": ["encapsulation", "inheritance", "polymorphism", "abstraction", "class"]
+  },
+  {
+    "id": 8,
+    "mode": "Technical",
+    "difficulty": "Hard",
+    "question": "How do database indexes improve performance and what are the trade-offs?",
+    "expected_keywords": ["index", "performance", "search", "write", "overhead"]
+  },
+  {
+    "id": 9,
+    "mode": "Behavioral",
+    "difficulty": "Easy",
+    "question": "How do you handle conflict within a team?",
+    "expected_keywords": ["listen", "compromise", "respect", "communicate", "resolution"]
+  },
+  {
+    "id": 10,
+    "mode": "Behavioral",
+    "difficulty": "Hard",
+    "question": "Describe a time when you had to make a decision without all the necessary information.",
+    "expected_keywords": ["risk", "analysis", "decision", "adaptation", "outcome"]
+  },
+  {
+    "id": 11,
+    "mode": "HR",
+    "difficulty": "Medium",
+    "question": "Why do you want to work for our company?",
+    "expected_keywords": ["culture", "vision", "alignment", "mission", "opportunity"]
+  },
+  {
+    "id": 12,
+    "mode": "Technical",
+    "difficulty": "Easy",
+    "question": "What is REST API and how does it work?",
+    "expected_keywords": ["http", "request", "response", "stateless", "resource"]
+  }
+]
