@@ -19,8 +19,6 @@ interviewcoach-ai/
 ```
 
 ---
-
-
 ## Setup & Running the Backend
 
 ### Prerequisites
